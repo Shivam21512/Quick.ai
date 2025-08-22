@@ -68,21 +68,21 @@ export const AiToolsData = [
 export const dummyTestimonialData = [
     {
         image: assets.profile_img_1,
-        name: 'John Doe',
+        name: 'Aniket Mehtar',
         title: 'Marketing Director, TechCorp',
         content: 'ContentAI has revolutionized our content workflow. The quality of the articles is outstanding, and it saves us hours of work every week.',
         rating: 4,
     },
     {
         image: assets.profile_img_1,
-        name: 'Jane Smith',
+        name: 'Tejas Surse',
         title: 'Content Creator, TechCorp',
         content: 'ContentAI has made our content creation process effortless. The AI tools have helped us produce high-quality content faster than ever before.',
         rating: 5,
     },
     {
         image: assets.profile_img_1,
-        name: 'David Lee',
+        name: 'Maharani Lee',
         title: 'Content Writer, TechCorp',
         content: 'ContentAI has transformed our content creation process. The AI tools have helped us produce high-quality content faster than ever before.',
         rating: 4,
