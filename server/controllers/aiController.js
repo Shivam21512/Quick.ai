@@ -5,6 +5,7 @@ import axios from "axios";
 import {v2 as cloudinary} from 'cloudinary'
 import fs from 'fs';
 import pdf from 'pdf-parse/lib/pdf-parse.js'
+import FormData from "form-data";  // ✅ correct import
 
 const AI = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -181,51 +182,45 @@ export const generateImage = async (req, res) => {
 export const removeImageBackground = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const {image } = req.file;
-    const plan = req.plan;
+    const image = req.file;
 
-    // Free plan usage limit
-    if (plan !== "premium") {
-      return res.json({
-        success: false,
-        message: "This feature is only available for premium subscriptions."
-      });
+    if (!image) {
+      return res.json({ success: false, message: "No image file provided" });
     }
 
-    
-    const {secure_url} = await cloudinary.uploader.upload(image.path, {
-      transformation: [
-        {
-          effect: 'background_removal',
-          background_removal: 'remove_the _background'
-        }
-      ]
-    })
+    // Call ClipDrop API
+    const formData = new FormData();
+    formData.append("image_file", fs.createReadStream(image.path));
 
-    // Save to DB
-    await sql`
-      INSERT INTO creations (user_id, prompt, content, type)
-      VALUES (${userId}, 'Remove background from image', ${secure_url}, 'image')
-    `;
+    const { data } = await axios.post(
+      "https://clipdrop-api.co/remove-background/v1",
+      formData,
+      {
+        headers: {
+          "x-api-key": process.env.CLIPDROP_API_KEY,
+          ...formData.getHeaders()
+        },
+        responseType: "arraybuffer"
+      }
+    );
 
-    res.json({
-      success: true,
-      content: secure_url
-    });
+    // Convert to base64 & upload to Cloudinary
+    const base64Image = `data:image/png;base64,${Buffer.from(data).toString("base64")}`;
+    const uploadRes = await cloudinary.uploader.upload(base64Image, { folder: "creations" });
+
+    res.json({ success: true, content: uploadRes.secure_url });
   } catch (error) {
-    console.log(error.message)
-    res.json({
-      success: false,
-      message: error.message
-    });
+    console.error("Error removing background:", error.message);
+    res.json({ success: false, message: error.message });
   }
 };
 
+
 export const removeImageObject = async (req, res) => {
   try {
-    const { userId } = req.auth();
+    const { userId } = req.auth;   // ✅ not req.auth()
     const { object } = req.body;
-    const {image } = req.file;
+    const image = req.file;
     const plan = req.plan;
 
     // Free plan usage limit
@@ -236,13 +231,23 @@ export const removeImageObject = async (req, res) => {
       });
     }
 
-    
-    const {public_id} = await cloudinary.uploader.upload(image.path);
+    if (!image) {
+      return res.status(400).json({ success: false, message: "No image file provided" });
+    }
 
+    if (!object) {
+      return res.status(400).json({ success: false, message: "No object specified to remove" });
+    }
+
+    // Upload original image
+    const { public_id } = await cloudinary.uploader.upload(image.path);
+
+    // Generate transformed URL with object removal
     const imageUrl = cloudinary.url(public_id, {
-      transformation: [{effect: `gen_remove: ${object}`}],
-      resource_type: 'image'
-    })
+      transformation: [{ effect: `gen_remove:${object}` }],  // ✅ no space
+      secure: true,
+      resource_type: "image"
+    });
 
     // Save to DB
     await sql`
@@ -255,13 +260,14 @@ export const removeImageObject = async (req, res) => {
       content: imageUrl
     });
   } catch (error) {
-    console.log(error.message)
+    console.error("removeImageObject error:", error);
     res.json({
       success: false,
       message: error.message
     });
   }
 };
+
 
 
 export const resumeReview = async (req, res) => {
