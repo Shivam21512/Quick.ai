@@ -70,7 +70,7 @@ const GenerateImages = () => {
         />
 
         <p className="mt-4 text-sm font-medium">Style</p>
-        <div className="mt-4 flex gap-3 flex-wrap sm:max-w-lg">
+        <div className="mt-4 flex gap-3 flex-wrap sm:max-w-lg ">
           {imageStyle.map((item) => (
             <span
               onClick={() => setSelectedStyle(item)}
