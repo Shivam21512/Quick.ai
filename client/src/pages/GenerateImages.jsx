@@ -18,7 +18,7 @@ const GenerateImages = () => {
     const [input, setInput] = useState('')
     const [publish, setPublish] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [ content, setContent] = useState('')
+    const [content, setContent] = useState('')
 
     const {getToken} = useAuth();
   
@@ -28,8 +28,7 @@ const GenerateImages = () => {
       try{
         setLoading(true);
 
-        const prompt = `Generate an image of ${input} in the style $
-        {selectedStyle}`
+        const prompt = `Generate an image of ${input} in the style ${selectedStyle}`
 
         const {data} = await axios.post('/api/ai/generate-image',
           {prompt, publish}, {headers: {Authorization: `Bearer ${await getToken()}`}}

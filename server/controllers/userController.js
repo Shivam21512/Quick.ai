@@ -73,7 +73,7 @@ export const toggleLikeCreation = async (req, res) => {
 
     await sql`
       UPDATE creations 
-      SET likes = ${sql.array(updatedLikes, "text")} 
+      SET likes = ${updatedLikes}::text[] 
       WHERE id = ${id}
     `;
 
@@ -88,6 +88,7 @@ export const toggleLikeCreation = async (req, res) => {
     });
   }
 };
+
 
 
 
