@@ -6,7 +6,7 @@ This project provides **AI-powered tools** with **secure authentication** and **
 ---
 
 ## 🌍 Live Demo  
-🔗 [Click here to try the live app](https://your-live-demo-url.com)  
+🔗 [Click here to try the live app](https://quick-ai-sf35.vercel.app/)  
 
 ---
 
