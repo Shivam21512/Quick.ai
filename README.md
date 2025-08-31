@@ -1,6 +1,6 @@
-# 🚀 AI SaaS Application (PERN Stack)
+# 🚀 AI SaaS Application
 
-A fully functional **AI SaaS Platform** built with **PostgreSQL, Express, React, and Node.js (PERN stack)**.  
+A fully functional **AI SaaS Platform** built with **PostgreSQL, Express, React, and Node.js **.  
 This project provides **AI-powered tools** with **secure authentication** and **subscription billing** support.  
 
 ---
@@ -18,7 +18,7 @@ This project provides **AI-powered tools** with **secure authentication** and **
 
 ### 💳 Subscription Billing
 - Premium subscriptions for access to advanced AI tools  
-- Integrated billing system (Stripe recommended)  
+- Integrated billing system  
 
 ### 🗄 Database
 - **Serverless PostgreSQL** powered by [Neon](https://neon.tech)  
@@ -43,14 +43,5 @@ This project provides **AI-powered tools** with **secure authentication** and **
 - **Backend** → Node.js + Express  
 - **Database** → PostgreSQL (Neon)  
 - **Authentication** → Clerk  
-- **Billing** → Stripe  
+- **Billing** → Clerk  
 - **AI Features** → OpenAI / Replicate APIs  
-
----
-
-## 🚀 Getting Started
-
-### 1️⃣ Clone the repository
-```bash
-git clone https://github.com/your-username/ai-saas-app.git
-cd ai-saas-app
