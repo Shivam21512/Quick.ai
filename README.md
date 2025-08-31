@@ -1,6 +1,6 @@
 # 🚀 AI SaaS Application
 
-A fully functional **AI SaaS Platform** built with **PostgreSQL, Express, React, and Node.js **.  
+A fully functional **AI SaaS Platform** built with **PostgreSQL, Express, React, and Node.js.  
 This project provides **AI-powered tools** with **secure authentication** and **subscription billing** support.  
 
 ---
